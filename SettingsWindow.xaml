@@ -1,0 +1,162 @@
+﻿<Window x:Class="PlainDraft.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Настройки"
+        SizeToContent="WidthAndHeight"
+        MinWidth="380"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        AllowsTransparency="False"
+        Background="{DynamicResource PaperBrush}"
+        FontFamily="Segoe UI"
+        UseLayoutRounding="True"
+        SnapsToDevicePixels="True"
+        ShowInTaskbar="False"
+        SourceInitialized="OnSourceInitialized">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="0"
+                      ResizeBorderThickness="0"
+                      GlassFrameThickness="1"
+                      CornerRadius="0"
+                      UseAeroCaptionButtons="False"/>
+    </WindowChrome.WindowChrome>
+
+    <Border Background="{DynamicResource PaperBrush}"
+            MouseLeftButtonDown="OnDragMove">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Margin="{StaticResource DialogContentMargin}" Width="340">
+                <TextBlock Text="Настройки"
+                           Style="{StaticResource DialogTitleText}"/>
+
+                <ContentControl Style="{StaticResource DialogCard}">
+                    <StackPanel>
+                        <TextBlock Text="Тема"
+                                   Style="{StaticResource DialogSectionLabel}"/>
+                        <RadioButton x:Name="ThemePaperRadio"
+                                     GroupName="Theme"
+                                     Content="Лист бумаги"
+                                     Style="{StaticResource DialogThemeRadio}"
+                                     Checked="OnThemeChecked"/>
+                        <RadioButton x:Name="ThemeChalkboardRadio"
+                                     GroupName="Theme"
+                                     Content="Грифельная доска"
+                                     Style="{StaticResource DialogThemeRadio}"
+                                     Margin="0"
+                                     Checked="OnThemeChecked"/>
+                    </StackPanel>
+                </ContentControl>
+
+                <ContentControl Style="{StaticResource DialogCard}">
+                    <StackPanel>
+                        <TextBlock Text="Горячие клавиши"
+                                   Style="{StaticResource DialogSectionLabel}"/>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="108"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Grid.Column="0"
+                                       Text="Перейти к заметке:"
+                                       Style="{StaticResource DialogFieldLabel}"
+                                       VerticalAlignment="Center"
+                                       Margin="0,0,12,8"/>
+                            <Border x:Name="GoToNoteFieldBorder"
+                                    Grid.Row="0" Grid.Column="1"
+                                    Margin="0,0,0,8"
+                                    HorizontalAlignment="Left"
+                                    Width="108"
+                                    Style="{StaticResource DialogFieldBorder}">
+                                <TextBox x:Name="GoToNoteBox"
+                                         Style="{StaticResource DialogFieldTextBox}"
+                                         IsReadOnly="True"
+                                         PreviewKeyDown="OnGoToNoteKeyDown"
+                                         GotKeyboardFocus="OnGoToNoteFocus"
+                                         LostKeyboardFocus="OnGoToNoteLostFocus"/>
+                            </Border>
+
+                            <TextBlock Grid.Row="1" Grid.Column="0"
+                                       Text="Показать / Скрыть:"
+                                       Style="{StaticResource DialogFieldLabel}"
+                                       VerticalAlignment="Center"
+                                       Margin="0,0,12,0"/>
+                            <Border x:Name="ToggleFieldBorder"
+                                    Grid.Row="1" Grid.Column="1"
+                                    HorizontalAlignment="Left"
+                                    Width="108"
+                                    Style="{StaticResource DialogFieldBorder}">
+                                <TextBox x:Name="ToggleBox"
+                                         Style="{StaticResource DialogFieldTextBox}"
+                                         IsReadOnly="True"
+                                         PreviewKeyDown="OnToggleKeyDown"
+                                         GotKeyboardFocus="OnToggleFocus"
+                                         LostKeyboardFocus="OnToggleLostFocus"/>
+                            </Border>
+                        </Grid>
+                    </StackPanel>
+                </ContentControl>
+
+                <ContentControl Style="{StaticResource DialogCard}" Margin="0">
+                    <StackPanel>
+                        <TextBlock Text="Параметры запуска"
+                                   Style="{StaticResource DialogSectionLabel}"/>
+                        <TextBlock Style="{StaticResource DialogMutedBody}"
+                                   Margin="0,0,0,10"
+                                   Text="Можно указать при ярлыке или в планировщике задач. При любом из флагов окно не показывается — приложение стартует в трее."/>
+                        <TextBlock Style="{StaticResource DialogLaunchArg}"
+                                   Margin="0,0,0,8"
+                                   TextWrapping="Wrap"
+                                   Text="-minimized  /minimized  -hidden  /hidden"/>
+                        <TextBlock Style="{StaticResource DialogMutedBody}"
+                                   Text="Пример: PlainDraft.exe -minimized"/>
+                    </StackPanel>
+                </ContentControl>
+            </StackPanel>
+
+            <Border Grid.Row="1" Style="{StaticResource DialogFooterBar}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*" MinWidth="12"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0"
+                            Content="По умолчанию"
+                            Height="34"
+                            MinWidth="120"
+                            Padding="12,0"
+                            Style="{StaticResource DialogSecondaryButton}"
+                            Click="OnResetDefaults"/>
+                    <Button Grid.Column="2"
+                            Content="Отмена"
+                            Width="96"
+                            Height="34"
+                            Margin="0,0,8,0"
+                            IsCancel="True"
+                            Click="OnCancel"
+                            Style="{StaticResource DialogSecondaryButton}"/>
+                    <Button Grid.Column="3"
+                            Content="Применить"
+                            Width="96"
+                            Height="34"
+                            IsDefault="True"
+                            Click="OnApply"
+                            Style="{StaticResource DialogPrimaryButton}"/>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</Window>

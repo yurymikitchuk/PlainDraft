@@ -1,0 +1,150 @@
+<Window x:Class="PlainDraft.PrintWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Печать"
+        Width="900" Height="640"
+        MinWidth="820" MinHeight="600"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="CanResize"
+        WindowStyle="None"
+        AllowsTransparency="False"
+        Background="{DynamicResource PaperBrush}"
+        FontFamily="Segoe UI"
+        UseLayoutRounding="True"
+        SnapsToDevicePixels="True"
+        ShowInTaskbar="False"
+        SourceInitialized="OnSourceInitialized"
+        Closed="OnClosed">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="0"
+                      ResizeBorderThickness="6"
+                      GlassFrameThickness="1"
+                      CornerRadius="0"
+                      UseAeroCaptionButtons="False"/>
+    </WindowChrome.WindowChrome>
+
+    <Border Background="{DynamicResource PaperBrush}"
+            MouseLeftButtonDown="OnDragMove">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" Margin="{StaticResource DialogContentMargin}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="300"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="Печать"
+                               Style="{StaticResource DialogTitleText}"/>
+                    <TextBlock x:Name="InfoText"
+                               Style="{StaticResource DialogMutedBody}"
+                               Margin="0,0,0,16"/>
+
+                    <TextBlock Text="Принтер"
+                               Style="{StaticResource DialogSectionLabel}"/>
+                    <ComboBox x:Name="PrinterCombo"
+                              Style="{StaticResource DialogComboBox}"
+                              DisplayMemberPath="FullName"
+                              Margin="0,0,0,14"
+                              SelectionChanged="OnPrintOptionChanged"/>
+
+                    <TextBlock Text="Ориентация"
+                               Style="{StaticResource DialogSectionLabel}"/>
+                    <ComboBox x:Name="OrientationCombo"
+                              Style="{StaticResource DialogComboBox}"
+                              Margin="0,0,0,14"
+                              SelectionChanged="OnPrintOptionChanged"/>
+
+                    <TextBlock Text="Масштаб"
+                               Style="{StaticResource DialogSectionLabel}"/>
+                    <ComboBox x:Name="ScaleCombo"
+                              Style="{StaticResource DialogComboBox}"
+                              Margin="0,0,0,16"
+                              SelectionChanged="OnPrintOptionChanged"/>
+
+                    <TextBlock Text="Страницы"
+                               Style="{StaticResource DialogSectionLabel}"/>
+                    <RadioButton x:Name="AllPagesRadio"
+                                 Content="Все страницы"
+                                 IsChecked="True"
+                                 Style="{StaticResource DialogThemeRadio}"
+                                 Checked="OnModeChanged"/>
+                    <RadioButton x:Name="CurrentPageRadio"
+                                 Content="Текущая страница"
+                                 Style="{StaticResource DialogThemeRadio}"
+                                 Checked="OnModeChanged"/>
+                    <RadioButton x:Name="RangeRadio"
+                                 Content="Диапазон / список"
+                                 Style="{StaticResource DialogThemeRadio}"
+                                 Margin="0,0,0,8"
+                                 Checked="OnModeChanged"/>
+
+                    <Border x:Name="RangeFieldBorder"
+                            Style="{StaticResource DialogFieldBorder}"
+                            Margin="22,0,0,4"
+                            IsEnabled="False">
+                        <TextBox x:Name="RangeBox"
+                                 Style="{StaticResource DialogFieldTextBox}"
+                                 TextChanged="OnRangeTextChanged"
+                                 GotFocus="OnRangeGotFocus"
+                                 LostFocus="OnRangeLostFocus"/>
+                    </Border>
+                    <TextBlock Style="{StaticResource DialogMutedBody}"
+                               Margin="22,0,0,10"
+                               Text="Например: 1-3, 5, 8-10"/>
+
+                    <TextBlock x:Name="ErrorText"
+                               Style="{StaticResource DialogErrorText}"
+                               Margin="0,0,0,6"
+                               Visibility="Collapsed"/>
+                    <TextBlock x:Name="PreviewStatusText"
+                               Style="{StaticResource DialogMutedBody}"/>
+                </StackPanel>
+
+                <Border Grid.Column="2"
+                        Background="{DynamicResource FieldBrush}"
+                        BorderBrush="{DynamicResource FieldBorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="{StaticResource ChromeCornerRadius}"
+                        Padding="12">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Предпросмотр"
+                                   Style="{StaticResource DialogSectionLabel}"
+                                   Margin="0,0,0,10"/>
+                        <ScrollViewer Grid.Row="1"
+                                      VerticalScrollBarVisibility="Auto"
+                                      HorizontalScrollBarVisibility="Disabled">
+                            <WrapPanel x:Name="PreviewPanel"/>
+                        </ScrollViewer>
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <Border Grid.Row="1" Style="{StaticResource DialogFooterBar}">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="Отмена"
+                            Width="96" Height="34"
+                            Margin="0,0,8,0"
+                            IsCancel="True"
+                            Click="OnCancel"
+                            Style="{StaticResource DialogSecondaryButton}"/>
+                    <Button Content="Печать"
+                            Width="96" Height="34"
+                            IsDefault="True"
+                            Click="OnPrint"
+                            Style="{StaticResource DialogPrimaryButton}"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Border>
+</Window>
