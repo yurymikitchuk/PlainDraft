@@ -2,7 +2,7 @@
 
 Быстрые заметки. Фиксируйте свои идеи в Plain Draft: Quick Notes.
 
-![PlainDraft](src/PlainDraft/Assets/screenshot.png)
+![PlainDraft](Assets/screenshot.png)
 
 **Платформа:** Windows 10/11, win-x86 · **Стек:** WPF, .NET 8 · **Версия:** 0.2.0
 
@@ -29,14 +29,6 @@
 
 Параметры запуска (опционально): `-minimized` / `/minimized` / `-hidden` / `/hidden`.
 
-## Сборка
-
-```powershell
-.\publish.ps1
-```
-
-Подробности: [HOW_TO_PUBLISH.md](HOW_TO_PUBLISH.md).
-
 ## Лицензия
 
-[MIT](LICENSE)
+[MIT](../LICENSE)
